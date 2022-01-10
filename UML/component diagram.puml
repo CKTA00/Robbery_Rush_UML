@@ -1,0 +1,30 @@
+@startuml
+
+
+component GameManager{
+
+}
+
+component MenuManager{
+
+}
+
+component InputSystem <<Subsysytem>>{
+
+}
+
+component X{
+}
+
+
+() Input
+
+InputSystem -l( Input
+
+InputSystem "Steering input"-0)- X
+InputSystem "Action button"-0)- X
+InputSystem "Touch"-l0)- MenuManager
+
+
+
+@enduml
