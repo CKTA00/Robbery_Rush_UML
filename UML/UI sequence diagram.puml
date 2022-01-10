@@ -6,14 +6,14 @@ autonumber
 'just ideas
 InputSystem -> MenuManager: Event: play button pressed
 MenuManager -> Renderer: Hide menu
-MenuManager -> Level: Start intro
-Level -> Renderer: Play intro animation
-Level -> AudioManager: Play intro music
+MenuManager -> GameManager: Start intro
+GameManager -> Renderer: Play intro animation
+GameManager -> AudioManager: Play intro music
 ...
 
-Level -> Renderer: Show distance meter and joysticks
-Level -> InputSystem: Unlock player inputs
-Level -> AudioManager: Play level music
+GameManager -> Renderer: Show distance meter and joysticks
+GameManager --> InputSystem: Unlock player inputs
+GameManager -> AudioManager: Play GameManager music
 
 
 @enduml
