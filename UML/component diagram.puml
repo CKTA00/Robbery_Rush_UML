@@ -2,7 +2,8 @@
 
 
 component Game{
-
+    component Simulation{
+    }
 }
 
 
@@ -28,22 +29,24 @@ component GameEngine{
 }
 
 
-() Input
-() Rendering
+() VehicleInput as " "
+() MenuInput as " "
+() Rendering as " "
 () Physics
 () Audio
 
 
-InputSystem -- Input
+InputSystem -- VehicleInput
+InputSystem -- MenuInput
 
-Input "Steering input")- Game
-Input "Action button")- Game
-Input "Touch")- MenuManager
+VehicleInput "Steering input")-- Simulation
+VehicleInput "Action button")-- Simulation
+MenuInput "Touch")-- MenuManager
 
 RenderingSystem -- Rendering
 
-Rendering )-- Game
-Rendering )-- MenuManager
+Rendering )--- Game
+Rendering )--- MenuManager
 
 AudioSystem -- Audio
 
@@ -51,7 +54,7 @@ Audio )-- Game
 Audio )-- MenuManager
 
 PhysicsSystem -- Physics
-Physics )-- Game
+Physics )-- Simulation
 
 
 'Czy można uwzględniać tutaj klasy/pakiety czy ma być to tylko abstrakcyjne działanie
