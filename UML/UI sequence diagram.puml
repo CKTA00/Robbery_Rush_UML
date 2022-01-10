@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+'just ideas
+InputSystem -> MenuManager: Event: play button pressed
+MenuManager -> Renderer: Hide menu
+MenuManager -> Level: Start intro
+Level -> Renderer: Play intro animation
+Level -> AudioManager: Play intro music
+...
+
+Level -> Renderer: Show distance meter and joysticks
+Level -> InputSystem: Unlock player inputs
+Level -> AudioManager: Play level music
+
+
+@enduml
