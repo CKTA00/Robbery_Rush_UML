@@ -3,17 +3,22 @@
 
 autonumber
 
-'just ideas
-InputSystem -> MenuManager: Event: play button pressed
-MenuManager -> RenderingSystem: Hide menu
-MenuManager -> GameManager: Start intro
-GameManager -> RenderingSystem: Play intro animation
-GameManager -> AudioManager: Play intro music
-...
 
-GameManager -> RenderingSystem: Show distance meter and joysticks
-GameManager --> InputSystem: Unlock player inputs
-GameManager -> AudioManager: Play GameManager music
+
+UnityEngine -> MenuManager: On "PLAY" button pressed
+MenuManager -> MenuManager: Hide menu
+MenuManager -> GameManager: Start intro
+GameManager->GameManager: Play intro music
+GameManager-> PlayerVehicle: Play animation
+PlayerVehicle --> UnityEngine: Wait for intro animation end
+...
+UnityEngine --> GameManager: Intro animation ends
+GameManager -> GameManager: Show distance meter and joysticks
+GameManager -> GameManager: Play level music
+GameManager -> PlayerVehicle: Unlock player inputs
+GameManager -> Generator: Start generating obstacles
+
 
 
 @enduml
+
