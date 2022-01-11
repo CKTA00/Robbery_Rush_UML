@@ -1,37 +1,43 @@
 @startuml
 
 
-package DeveloperScripts{
+component DeveloperScripts{
     component GameManager{
-    }
 
-    component PlayerVehicle{
     }
 
     component Generator{
+
     }
 
     component MenuManager {
 
     }
+
+    component PlayerVehicle{
+
+    }
+
+    component Actors{
+
+    }
 }
 
-
-
-
-
-package UnityEngine{
+component UnityEngine{
     component InputSystem {
 
     }
+
     component RenderingSystem{
 
     }
 
     component AudioSystem{
+
     }
 
     component PhysicsSystem{
+
     }
 }
 
@@ -39,28 +45,34 @@ package UnityEngine{
 () VehicleInput as " "
 () MenuInput as " "
 () Rendering as " "
-() Physics
-() Audio
+() Physics as " "
+() Audio as " "
 
 
 InputSystem -- VehicleInput
 InputSystem -- MenuInput
 
-VehicleInput "Steering input")-- GameManager
-VehicleInput "Action button")-- GameManager
+VehicleInput "Steering input")-- PlayerVehicle
+VehicleInput "Action button")-- PlayerVehicle
 MenuInput "Touch")-- MenuManager
 
+
+Rendering )-down- DeveloperScripts
+Physics )-down- DeveloperScripts
+Audio )-down- DeveloperScripts
+
+MenuManager --> GameManager: game start
+MenuManager <-- GameManager: game over
+GameManager --> Generator: setup
+GameManager --> PlayerVehicle: game start
+GameManager <-- PlayerVehicle: game over
+GameManager --* Actors
+Generator ..l> Actors: creates
+
+Actors <--> PlayerVehicle: interacts
+
 RenderingSystem -- Rendering
-
-Rendering )--- DeveloperScripts
-Rendering )--- MenuManager
-
 AudioSystem -- Audio
-
-Audio )-- DeveloperScripts
-Audio )-- MenuManager
-
 PhysicsSystem -- Physics
-Physics )-- GameManager
 
 @enduml
