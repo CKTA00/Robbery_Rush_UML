@@ -1,19 +1,27 @@
 @startuml
 
 
-component Game{
-    component Simulation{
+package DeveloperScripts{
+    component GameManager{
+    }
+
+    component PlayerVehicle{
+    }
+
+    component Generator{
+    }
+
+    component MenuManager {
+
     }
 }
 
 
-component MenuManager {
-
-}
 
 
-component GameEngine{
-    component InputSystem <<Subsystem>>{
+
+package UnityEngine{
+    component InputSystem {
 
     }
     component RenderingSystem{
@@ -21,7 +29,6 @@ component GameEngine{
     }
 
     component AudioSystem{
-
     }
 
     component PhysicsSystem{
@@ -39,25 +46,21 @@ component GameEngine{
 InputSystem -- VehicleInput
 InputSystem -- MenuInput
 
-VehicleInput "Steering input")-- Simulation
-VehicleInput "Action button")-- Simulation
+VehicleInput "Steering input")-- GameManager
+VehicleInput "Action button")-- GameManager
 MenuInput "Touch")-- MenuManager
 
 RenderingSystem -- Rendering
 
-Rendering )--- Game
+Rendering )--- DeveloperScripts
 Rendering )--- MenuManager
 
 AudioSystem -- Audio
 
-Audio )-- Game
+Audio )-- DeveloperScripts
 Audio )-- MenuManager
 
 PhysicsSystem -- Physics
-Physics )-- Simulation
-
-
-'Czy można uwzględniać tutaj klasy/pakiety czy ma być to tylko abstrakcyjne działanie
-
+Physics )-- GameManager
 
 @enduml
