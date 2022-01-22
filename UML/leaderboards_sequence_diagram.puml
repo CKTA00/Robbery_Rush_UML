@@ -1,0 +1,31 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+?-> UnityEngine ++: application starts
+
+UnityEngine -> MenuManager ++: initialize
+rnote over UnityEngine: continues initialization\nof other components
+MenuManager -> "Google Play API" --++: show login menu
+database "Google Play"
+"Google Play API" -> "Google Play": user authorization
+"Google Play" --> "Google Play API": authorized
+"Google Play API" --> MenuManager  --++: success
+MenuManager -> MenuManager: show main menu
+...
+
+rnote over UnityEngine: after successful log in\nuser will be able to\npress "Leaderboards"\nbutton
+
+UnityEngine -> MenuManager: "Leaderboards" button pressed
+MenuManager -> "Google Play API" --++: get leaderboards
+"Google Play API" -> "Google Play": request leaderoards
+"Google Play" --> "Google Play API": fetch all
+"Google Play API" --> MenuManager  --++:success
+MenuManager -> MenuManager: show leaderboards menu
+...
+
+
+
+@enduml
+
