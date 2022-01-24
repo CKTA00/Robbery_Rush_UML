@@ -1,0 +1,59 @@
+@startuml
+'https://plantuml.com/state-diagram
+
+
+
+
+
+scale 350 width
+[*] --> NotShooting
+
+state NotShooting {
+  [*] --> Idle
+  Idle --> Configuring : EvConfig
+  Configuring --> Idle : EvConfig
+}
+
+state Configuring {
+  [*] --> NewValueSelection
+  NewValueSelection --> NewValuePreview : EvNewValue
+  NewValuePreview --> NewValueSelection : EvNewValueRejected
+  NewValuePreview --> NewValueSelection : EvNewValueSaved
+
+  state NewValuePreview {
+     State1 -> State2
+  }
+
+}
+
+note right of Inactive
+  A note can also
+  be defined on
+  several lines
+end note
+
+@enduml
+
+@startuml
+
+state PlayerState : = this is the base state class
+state PlayerState : do / control player movement
+
+
+[*] -u> PlayerBaseState
+PlayerBaseState -l-> PlayerStandardHitState : playerManager [ hasCollided ]
+PlayerStandardHitState --d-> PlayerAfterHitState : playerManager
+
+state PlayerAfterHitState{
+    state invulnerableTimer <<choice>>
+    [*] -r> invulnerableState
+    invulnerableState -l--> invulnerableTimer
+    invulnerableTimer -u--> PlayerBaseState : [ stateTimeCount >= invulnerableTime ]
+    invulnerableTimer ---> invulnerableState : [ stateTimeCount < invulnerableTime ]
+}
+
+
+
+
+
+@enduml
