@@ -56,8 +56,8 @@ VehicleInput "Steering input")-- PlayerVehicle
 VehicleInput "Action button")-- PlayerVehicle
 MenuInput "Touch")-- MenuManager
 
-MenuManager <--> "Google Play API": request and\nfetch data
-component "Google Play API"{
+MenuManager <--> "Google Play API": request\fetch data
+package "Google Play API"{
 
 }
 
@@ -65,12 +65,10 @@ Rendering )-down- DeveloperScripts
 Physics )-down- DeveloperScripts
 Audio )-down- DeveloperScripts
 
-MenuManager --> GameManager: game start
-MenuManager <-- GameManager: game over
+MenuManager <--> GameManager: game events
 GameManager --> Generator: setup
-GameManager --> PlayerVehicle: game start
-GameManager <-- PlayerVehicle: game over
-GameManager --* Actors
+GameManager <--> PlayerVehicle: game events
+GameManager *-- Actors
 Generator ..l> Actors: creates
 
 Actors <--> PlayerVehicle: interacts

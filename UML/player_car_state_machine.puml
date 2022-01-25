@@ -6,20 +6,19 @@ state PlayerState : do / control player movement
 state PlayerBaseState
 
 [*] -u> PlayerBaseState
-PlayerBaseState -l-> PlayerStandardHitState : playerManager [ hasCollided ]
-PlayerStandardHitState --d-> PlayerAfterHitState : playerManager
+PlayerBaseState -> PlayerStandardHitState : [ OnObstacleHit ]
 
 state PlayerStandardHitState : do / apply force to player vehicle
 
-state PlayerAfterHitState{
+state PlayerStandardHitState{
     state invulnerableState : do / disables collisions
     state invulnerableState : exit / enables collisions
-    [*] -r> invulnerableState
-    invulnerableState ---> invulnerableState : [ stateTimeCount < invulnerableTime ]
-    invulnerableState ---> PlayerBaseState : [ stateTimeCount >= invulnerableTime ]
+    [*] -> invulnerableState
+    invulnerableState --> invulnerableState : [ stateTimeCount < invulnerableTime ]
+    invulnerableState --> PlayerBaseState : [ stateTimeCount >= invulnerableTime ]
 }
 
-PlayerBaseState --> PlayerPowerUpReadyState : playerManager [ onPowerUpHit ]
+PlayerBaseState --> PlayerPowerUpReadyState : [ onPowerUpHit ]
 
 state PlayerPowerUpReadyState{
 
@@ -37,7 +36,7 @@ state PlayerPowerUpReadyState{
 
         state passivePowerUp : do / applies modification for a duration
         [*] ->  passivePowerUp
-        passivePowerUp -u> passivePowerUp : [ stateTimeCount < powerUpTime ]
+        passivePowerUp -> passivePowerUp : [ stateTimeCount < powerUpTime ]
         passivePowerUp -l> [*] : [stateTimeCount >= powerUpTime]
 
 

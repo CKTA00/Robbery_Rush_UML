@@ -11,6 +11,7 @@ MenuManager -> MenuManager : Hide main menu
 MenuManager -> GameManager --++ : Start intro
 GameManager->GameManager  : Play intro music
 GameManager-> PlayerVehicle --++: Play animation
+
 PlayerVehicle --> UnityEngine --: return
 
 loop until animation ends
@@ -20,6 +21,7 @@ loop until animation ends
 end
 
 UnityEngine -> GameManager ++: start game
+
 
 GameManager -> GameManager: Show distance meter and joysticks
 GameManager -> GameManager: Play level music
