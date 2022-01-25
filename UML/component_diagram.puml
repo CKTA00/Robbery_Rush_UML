@@ -56,6 +56,10 @@ VehicleInput "Steering input")-- PlayerVehicle
 VehicleInput "Action button")-- PlayerVehicle
 MenuInput "Touch")-- MenuManager
 
+MenuManager <--> "Google Play API": request and\nfetch data
+component "Google Play API"{
+
+}
 
 Rendering )-down- DeveloperScripts
 Physics )-down- DeveloperScripts
