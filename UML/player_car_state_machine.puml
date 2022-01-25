@@ -12,6 +12,8 @@ PlayerStandardHitState --d-> PlayerAfterHitState : playerManager
 state PlayerStandardHitState : do / apply force to player vehicle
 
 state PlayerAfterHitState{
+    state invulnerableState : do / disables collisions
+    state invulnerableState : exit / enables collisions
     [*] -r> invulnerableState
     invulnerableState ---> invulnerableState : [ stateTimeCount < invulnerableTime ]
     invulnerableState ---> PlayerBaseState : [ stateTimeCount >= invulnerableTime ]
