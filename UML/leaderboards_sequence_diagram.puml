@@ -13,17 +13,21 @@ database "Google Play"
 "Google Play" --> "Google Play API": authorized
 "Google Play API" --> MenuManager  --++: success
 MenuManager -> MenuManager: show main menu
+MenuManager --> UnityEngine --: return
+
 ...
 
 rnote over UnityEngine: after successful log in\nuser will be able to\npress "Leaderboards"\nbutton
 
-UnityEngine -> MenuManager: "Leaderboards" button pressed
+UnityEngine -> MenuManager++: "Leaderboards" button pressed
 MenuManager -> "Google Play API" --++: get leaderboards
 "Google Play API" -> "Google Play": request leaderoards
 "Google Play" --> "Google Play API": fetch all
 "Google Play API" --> MenuManager  --++:success
 MenuManager -> MenuManager: show leaderboards menu
-...
+MenuManager --> UnityEngine --: return
+
+
 
 
 

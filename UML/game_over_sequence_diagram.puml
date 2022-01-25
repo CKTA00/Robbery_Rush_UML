@@ -2,22 +2,35 @@
 'https://plantuml.com/sequence-diagram
 
 autonumber
+skinparam lifelineStrategy solid
+participant UnityEngine
+activate UnityEngine
+UnityEngine -> PlayerVehicle ++: update()
+rnote over PlayerVehicle: game over\ncondition\nfullfiled
 
+PlayerVehicle -> GameManager --++: stop game
 
+GameManager -> GameManager: play game over\nmusic
+GameManager -> Generator--++: stop generating
+GameManager <-- Generator--++:
 
-UnityEngine -> MenuManager: On "PLAY" button pressed
-MenuManager -> MenuManager: Hide menu
-MenuManager -> GameManager: Start intro
-GameManager->GameManager: Play intro music
-GameManager-> PlayerVehicle: Play animation
-PlayerVehicle --> UnityEngine: Wait for intro animation end
-...
-UnityEngine --> GameManager: Intro animation ends
-GameManager -> GameManager: Show distance meter and joysticks
-GameManager -> GameManager: Play level music
-GameManager -> PlayerVehicle: Unlock player inputs
-GameManager -> Generator: Start generating obstacles
+GameManager -> UnityEngine--++: stop player input
+GameManager <-- UnityEngine--++:
 
+GameManager -> MenuManager --++: game over
+MenuManager -> MenuManager : hide joystick and\ndistance meter
+MenuManager -> MenuManager : show game over\nmenu
+'GameManager <-- MenuManager --++:
+'GameManager --> PlayerVehicle--++:
+'PlayerVehicle --> UnityEngine--:
+MenuManager --> UnityEngine--: returns
+UnityEngine -> MenuManager ++: update()
+rnote over MenuManager: player achieved\nbest score
+MenuManager -> "Google Play API" --++: replace best score
+database "Google Play"
+"Google Play API" -> "Google Play": post highscore
+"Google Play API" <-- "Google Play": success
+"Google Play API" --> UnityEngine: returns
 
 
 @enduml
