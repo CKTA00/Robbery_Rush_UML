@@ -1,6 +1,7 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
+'<<<<<<< Updated upstream
 participant UnityEngine
 activate UnityEngine
 
@@ -19,8 +20,8 @@ GameManager -> GameManager: Play level music
 GameManager -> PlayerVehicle --++: Unlock player inputs
 GameManager <-- PlayerVehicle --++
 
-GameManager --> UnityEngine --: returns
 
+GameManager --> UnityEngine --: returns
 
 @enduml
 
