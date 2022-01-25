@@ -4,6 +4,8 @@
 skinparam lifelineStrategy solid
 participant UnityEngine
 activate UnityEngine
+rnote across: application during gameplay (player pressed "PLAY" and game started)
+
 UnityEngine -> GameManager ++: update()
 rnote over GameManager: distance to next\nroad divergence\nis below 500m
 GameManager -> Generator --++: stop generation\nand place road\ndivergence in 500m
@@ -21,12 +23,14 @@ end
 ...
 UnityEngine -> GameManager ++: player chosen option
 GameManager -> PlayerVehicle --++: start turning animation\nand disable steering
-UnityEngine <-- PlayerVehicle: wait for animation end
-...
-UnityEngine <-- PlayerVehicle--: animation ended
-
+UnityEngine <-- PlayerVehicle --: return
+loop until animation ends
+    UnityEngine -> PlayerVehicle ++:update()
+    PlayerVehicle -> PlayerVehicle: update animation
+    UnityEngine <-- PlayerVehicle --:return
+end
 alt new biomes
-UnityEngine -> GameManager ++: animation ended
+UnityEngine -> GameManager ++: change biome
     GameManager -> GameManager: play new biome music
     GameManager -> MenuManager --++: enable steering
     GameManager <-- MenuManager --++:
@@ -34,7 +38,7 @@ UnityEngine -> GameManager ++: animation ended
     UnityEngine <-- Generator --: returns
 
 else new player vehicle stats
-    UnityEngine -> GameManager ++: animation ended
+    UnityEngine -> GameManager ++: change player stats
     GameManager -> MenuManager --++: change vehicle stats
     GameManager <-- MenuManager --++:
     GameManager -> MenuManager --++: enable steering

@@ -1,27 +1,32 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-'<<<<<<< Updated upstream
 participant UnityEngine
+rnote across: application in main menu
+
 activate UnityEngine
 
 UnityEngine -> MenuManager ++: On "PLAY" button pressed
-MenuManager -> MenuManager : Hide menu
+MenuManager -> MenuManager : Hide main menu
 MenuManager -> GameManager --++ : Start intro
 GameManager->GameManager  : Play intro music
 GameManager-> PlayerVehicle --++: Play animation
-PlayerVehicle --> UnityEngine : Wait for intro animation end
-...
-UnityEngine <-- PlayerVehicle --: Intro animation ends
-UnityEngine --> GameManager ++: Intro animation ends
+PlayerVehicle --> UnityEngine --: return
+
+loop until animation ends
+    UnityEngine -> PlayerVehicle ++:update()
+    PlayerVehicle -> PlayerVehicle: update animation
+    UnityEngine <-- PlayerVehicle --:return
+end
+
+UnityEngine -> GameManager ++: start game
 
 GameManager -> GameManager: Show distance meter and joysticks
 GameManager -> GameManager: Play level music
-GameManager -> PlayerVehicle --++: Unlock player inputs
-GameManager <-- PlayerVehicle --++
+GameManager -> PlayerVehicle --++: enable steering
+UnityEngine <-- PlayerVehicle --: return
 
 
-GameManager --> UnityEngine --: returns
 
 @enduml
 

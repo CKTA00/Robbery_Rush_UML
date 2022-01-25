@@ -4,6 +4,8 @@
 skinparam lifelineStrategy solid
 participant UnityEngine
 activate UnityEngine
+rnote across: application during gameplay (player pressed "PLAY" and game started)
+
 UnityEngine -> PlayerVehicle ++: update()
 rnote over PlayerVehicle: game over\ncondition\nfullfiled
 
@@ -22,11 +24,11 @@ MenuManager -> MenuManager : show game over\nmenu
 'GameManager <-- MenuManager --++:
 'GameManager --> PlayerVehicle--++:
 'PlayerVehicle --> UnityEngine--:
-MenuManager --> UnityEngine--: returns
+MenuManager --> UnityEngine--: return
 UnityEngine -> MenuManager ++: update()
 'rnote over MenuManager: player achieved\nbest score
 alt player achieved new best score
-    MenuManager -> "Google Play API" ++: replace best score
+    MenuManager -> "Google Play API" ++: replace highscore
     database "Google Play"
     "Google Play API" -> "Google Play": post highscore
     alt
@@ -34,10 +36,10 @@ alt player achieved new best score
     else
         "Google Play API" <-- "Google Play" : failure
         "Google Play API" --> "MenuManager" : display error message
-        "Google Play API" --> UnityEngine -- :returns
+        "Google Play API" --> UnityEngine -- :return
     end
 else
-    "MenuManager" --> UnityEngine --: returns
+    "MenuManager" --> UnityEngine --: return
 end
 
 

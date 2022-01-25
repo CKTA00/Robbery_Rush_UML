@@ -8,6 +8,9 @@ UnityEngine -> MenuManager ++: initialize
 rnote over UnityEngine: continues initialization\nof other components
 MenuManager -> "Google Play API" --++: show login menu
 database "Google Play"
+
+rnote over "Google Play API": takes player credentials\nfrom system
+
 "Google Play API" -> "Google Play": user authorization
 
 group alt
@@ -28,7 +31,8 @@ rnote over UnityEngine: after successful log in\nuser will be able to\npress "Le
 
 UnityEngine -> MenuManager++: "Leaderboards" button pressed
 MenuManager -> "Google Play API" --++: get leaderboards
-"Google Play API" -> "Google Play": request leaderoards
+"Google Play API" -> "Google Play": request leaderboards
+rnote over "Google Play API": uses player credentials\nfrom before
 "Google Play" --> "Google Play API": fetch all
 group alt
     "Google Play API" --> MenuManager  :success
