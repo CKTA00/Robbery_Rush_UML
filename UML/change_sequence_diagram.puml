@@ -22,8 +22,9 @@ end
 ...
 UnityEngine -> GameManager ++: player chosen option
 GameManager -> PlayerVehicle --++: start turning animation\nand disable steering
-UnityEngine <-- PlayerVehicle --: wait for animation end
+UnityEngine <-- PlayerVehicle: wait for animation end
 ...
+UnityEngine <-- PlayerVehicle--: animation ended
 
 alt new biomes
 UnityEngine -> GameManager ++: animation ended
