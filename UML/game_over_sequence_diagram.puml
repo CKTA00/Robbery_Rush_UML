@@ -25,12 +25,22 @@ MenuManager -> MenuManager : show game over\nmenu
 'PlayerVehicle --> UnityEngine--:
 MenuManager --> UnityEngine--: returns
 UnityEngine -> MenuManager ++: update()
-rnote over MenuManager: player achieved\nbest score
-MenuManager -> "Google Play API" --++: replace best score
-database "Google Play"
-"Google Play API" -> "Google Play": post highscore
-"Google Play API" <-- "Google Play": success
-"Google Play API" --> UnityEngine: returns
+'rnote over MenuManager: player achieved\nbest score
+group alt
+    MenuManager -> "Google Play API" ++: replace best score
+    database "Google Play"
+    "Google Play API" -> "Google Play": post highscore
+    group alt
+        "Google Play API" <-- "Google Play": success
+    else
+        "Google Play API" <-- "Google Play" : failure
+        "Google Play API" --> "MenuManager" : display error message
+        "Google Play API" --> UnityEngine -- :returns
+    end
+else
+    "MenuManager" --> UnityEngine --: returns
+end
+
 
 
 @enduml
