@@ -30,7 +30,7 @@ loop until animation ends
     UnityEngine <-- PlayerVehicle --:return
 end
 alt new biomes
-UnityEngine -> GameManager ++: change biome
+UnityEngine -> GameManager ++: change to\nselected biome
     GameManager -> GameManager: play new biome music
     GameManager -> MenuManager --++: enable steering
     GameManager <-- MenuManager --++:
@@ -38,7 +38,7 @@ UnityEngine -> GameManager ++: change biome
     UnityEngine <-- Generator --: returns
 
 else new player vehicle stats
-    UnityEngine -> GameManager ++: change player stats
+    UnityEngine -> GameManager ++: change to selected\nplayer stats
     GameManager -> MenuManager --++: change vehicle stats
     GameManager <-- MenuManager --++:
     GameManager -> MenuManager --++: enable steering
@@ -46,6 +46,14 @@ else new player vehicle stats
     GameManager -> Generator --++: start generating
     UnityEngine <-- Generator --: returns
     'UnityEngine <-- MenuManager --: returns
+end
+
+loop
+...
+    UnityEngine -> Generator ++:update()
+    Generator->Generator: randomize and\nspawn feature
+    UnityEngine <-- Generator --:return
+...
 end
 
 

@@ -18,9 +18,6 @@ component DeveloperScripts{
 
     }
 
-    component Actors{
-
-    }
 }
 
 component UnityEngine{
@@ -52,11 +49,10 @@ component UnityEngine{
 InputSystem -- VehicleInput
 InputSystem -- MenuInput
 
-VehicleInput "Steering input")-- PlayerVehicle
-VehicleInput "Action button")-- PlayerVehicle
+VehicleInput "input")-- PlayerVehicle
 MenuInput "Touch")-- MenuManager
 
-MenuManager <--> "Google Play API": request\fetch data
+MenuManager -(0- "Google Play API": request\fetch data
 package "Google Play API"{
 
 }
@@ -65,16 +61,16 @@ Rendering )-down- DeveloperScripts
 Physics )-down- DeveloperScripts
 Audio )-down- DeveloperScripts
 
-MenuManager <--> GameManager: game events
-GameManager --> Generator: setup
-GameManager <--> PlayerVehicle: game events
-GameManager *-- Actors
-Generator ..l> Actors: creates
+MenuManager -0)- GameManager
+GameManager -(0- Generator
+GameManager -(0- PlayerVehicle
 
-Actors <--> PlayerVehicle: interacts
 
 RenderingSystem -- Rendering
 AudioSystem -- Audio
 PhysicsSystem -- Physics
+
+
+
 
 @enduml
