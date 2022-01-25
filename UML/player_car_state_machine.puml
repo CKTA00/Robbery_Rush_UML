@@ -1,5 +1,8 @@
 @startuml
 
+note " state change can be triggered in Update() method\n within each State or object that has that state" as updateNote
+note " States within Player Vehicle" as note2
+
 state PlayerState : = this is the base state class
 state PlayerState : do / control player movement
 
