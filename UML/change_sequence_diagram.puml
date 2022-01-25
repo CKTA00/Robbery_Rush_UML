@@ -1,0 +1,51 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+'autonumber
+skinparam lifelineStrategy solid
+participant UnityEngine
+activate UnityEngine
+UnityEngine -> GameManager ++: update()
+rnote over GameManager: distance to next\nroad divergence\nis below 500m
+GameManager -> Generator --++: stop generation\nand place road\ndivergence in 500m
+GameManager <-- Generator --++:
+
+
+alt new biomes
+    GameManager -> MenuManager --++: show biome choice
+    UnityEngine <-- MenuManager --: returns
+else new player vehicle stats
+    GameManager -> MenuManager --++: show vehicle stats choice
+    UnityEngine <-- MenuManager --: returns
+end
+
+...
+UnityEngine -> GameManager ++: player chosen option
+GameManager -> PlayerVehicle --++: start turning animation\nand disable steering
+UnityEngine <-- PlayerVehicle --: wait for animation end
+...
+
+alt new biomes
+UnityEngine -> GameManager ++: animation ended
+    GameManager -> GameManager: play new biome music
+    GameManager -> MenuManager --++: enable steering
+    GameManager <-- MenuManager --++:
+    GameManager -> Generator --++: start generating\nnew biome features
+    UnityEngine <-- Generator --: returns
+
+else new player vehicle stats
+    UnityEngine -> GameManager ++: animation ended
+    GameManager -> MenuManager --++: change vehicle stats
+    GameManager <-- MenuManager --++:
+    GameManager -> MenuManager --++: enable steering
+    GameManager <-- MenuManager --++:
+    GameManager -> Generator --++: start generating
+    UnityEngine <-- Generator --: returns
+    'UnityEngine <-- MenuManager --: returns
+end
+
+
+
+
+@enduml
+
