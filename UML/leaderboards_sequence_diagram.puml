@@ -9,8 +9,16 @@ rnote over UnityEngine: continues initialization\nof other components
 MenuManager -> "Google Play API" --++: show login menu
 database "Google Play"
 "Google Play API" -> "Google Play": user authorization
-"Google Play" --> "Google Play API": authorized
-"Google Play API" --> MenuManager  --++: success
+
+group alt
+    "Google Play" --> "Google Play API": authorized
+    "Google Play API" --> MenuManager  : success
+    activate MenuManager
+    else
+    "Google Play" --> "Google Play API" : authorization failed
+    "Google Play API" --> MenuManager  : show error message
+end
+deactivate "Google Play API"
 MenuManager -> MenuManager: show main menu
 MenuManager --> UnityEngine --: return
 
@@ -22,9 +30,17 @@ UnityEngine -> MenuManager++: "Leaderboards" button pressed
 MenuManager -> "Google Play API" --++: get leaderboards
 "Google Play API" -> "Google Play": request leaderoards
 "Google Play" --> "Google Play API": fetch all
-"Google Play API" --> MenuManager  --++:success
-MenuManager -> MenuManager: show leaderboards menu
-MenuManager --> UnityEngine --: return
+group alt
+    "Google Play API" --> MenuManager  :success
+    activate MenuManager
+    MenuManager -> MenuManager: show leaderboards menu
+    else
+    "Google Play API" --> MenuManager  :error
+    deactivate "Google Play API"
+    MenuManager -> MenuManager : show error message
+
+end
+    MenuManager --> UnityEngine --: return
 
 
 

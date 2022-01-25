@@ -3,21 +3,24 @@
 
 autonumber
 
+participant UnityEngine
+activate UnityEngine
 
-
-UnityEngine -> MenuManager: On "PLAY" button pressed
-MenuManager -> MenuManager: Hide menu
-MenuManager -> GameManager: Start intro
-GameManager->GameManager: Play intro music
-GameManager-> PlayerVehicle: Play animation
-PlayerVehicle --> UnityEngine: Wait for intro animation end
+UnityEngine -> MenuManager ++: On "PLAY" button pressed
+MenuManager -> MenuManager : Hide menu
+MenuManager -> GameManager --++ : Start intro
+GameManager->GameManager  : Play intro music
+GameManager-> PlayerVehicle ++: Play animation
+PlayerVehicle --> UnityEngine : Wait for intro animation end
 ...
-UnityEngine --> GameManager: Intro animation ends
+UnityEngine --> GameManager : Intro animation ends
+UnityEngine --> PlayerVehicle : Intro animation ends
+deactivate PlayerVehicle
 GameManager -> GameManager: Show distance meter and joysticks
 GameManager -> GameManager: Play level music
-GameManager -> PlayerVehicle: Unlock player inputs
-GameManager -> Generator: Start generating obstacles
-
+GameManager -> PlayerVehicle : Unlock player inputs
+activate PlayerVehicle
+GameManager -> Generator ++: Start generating obstacles
 
 
 @enduml
