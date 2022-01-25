@@ -1,58 +1,48 @@
 @startuml
-'https://plantuml.com/state-diagram
-
-
-
-
-
-scale 350 width
-[*] --> NotShooting
-
-state NotShooting {
-  [*] --> Idle
-  Idle --> Configuring : EvConfig
-  Configuring --> Idle : EvConfig
-}
-
-state Configuring {
-  [*] --> NewValueSelection
-  NewValueSelection --> NewValuePreview : EvNewValue
-  NewValuePreview --> NewValueSelection : EvNewValueRejected
-  NewValuePreview --> NewValueSelection : EvNewValueSaved
-
-  state NewValuePreview {
-     State1 -> State2
-  }
-
-}
-
-note right of Inactive
-  A note can also
-  be defined on
-  several lines
-end note
-
-@enduml
-
-@startuml
 
 state PlayerState : = this is the base state class
 state PlayerState : do / control player movement
 
+state PlayerBaseState
 
 [*] -u> PlayerBaseState
 PlayerBaseState -l-> PlayerStandardHitState : playerManager [ hasCollided ]
 PlayerStandardHitState --d-> PlayerAfterHitState : playerManager
 
+state PlayerStandardHitState : do / apply force to player vehicle
+
 state PlayerAfterHitState{
-    state invulnerableTimer <<choice>>
     [*] -r> invulnerableState
-    invulnerableState -l--> invulnerableTimer
-    invulnerableTimer -u--> PlayerBaseState : [ stateTimeCount >= invulnerableTime ]
-    invulnerableTimer ---> invulnerableState : [ stateTimeCount < invulnerableTime ]
+    invulnerableState ---> invulnerableState : [ stateTimeCount < invulnerableTime ]
+    invulnerableState ---> PlayerBaseState : [ stateTimeCount >= invulnerableTime ]
 }
 
+PlayerBaseState --> PlayerPowerUpReadyState : playerManager [ onPowerUpHit ]
 
+state PlayerPowerUpReadyState{
+
+    state c <<choice>>
+    [*] -> c
+    c -> playerPowerUp : [ playerPowerUp != null ]
+    c --> PlayerBaseState : [ playerPowerUp == null ]
+
+    state playerPowerUp{
+
+        state activePowerUp : do / applies modification on player input
+        [*] -> activePowerUp
+        activePowerUp -> [*]
+        -----
+
+        state passivePowerUp : do / applies modification for a duration
+        [*] ->  passivePowerUp
+        passivePowerUp -u> passivePowerUp : [ stateTimeCount < powerUpTime ]
+        passivePowerUp -l> [*] : [stateTimeCount >= powerUpTime]
+
+
+
+    }
+
+}
 
 
 
